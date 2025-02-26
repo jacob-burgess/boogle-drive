@@ -5,6 +5,14 @@
 
 declare module "sst" {
   export interface Resource {
+    "Database": {
+      "database": string
+      "host": string
+      "password": string
+      "port": number
+      "type": "sst.sst.Linkable"
+      "username": string
+    }
     "WWW": {
       "type": "sst.aws.TanstackStart"
       "url": string
