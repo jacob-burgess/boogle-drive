@@ -4,9 +4,13 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@types/aws-lambda": "8.10.147",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "sst": "3.9.15"
   }
 }
