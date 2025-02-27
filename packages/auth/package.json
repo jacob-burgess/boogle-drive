@@ -1,0 +1,16 @@
+{
+  "name": "@boogle/auth",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@openauthjs/openauth": "^0.4.0",
+    "zod": "^3.24.2"
+  }
+}
