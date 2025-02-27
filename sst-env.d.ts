@@ -17,6 +17,22 @@ declare module "sst" {
       "type": "sst.sst.Linkable"
       "username": string
     }
+    "GITHUB_CLIENT_ID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "GITHUB_CLIENT_SECRET": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "GOOGLE_CLIENT_ID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "GOOGLE_CLIENT_SECRET": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "WWW": {
       "type": "sst.aws.TanstackStart"
       "url": string
