@@ -5,6 +5,10 @@
 
 declare module "sst" {
   export interface Resource {
+    "AuthServer": {
+      "type": "sst.aws.Auth"
+      "url": string
+    }
     "Database": {
       "database": string
       "host": string
