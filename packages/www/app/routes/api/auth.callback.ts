@@ -18,6 +18,6 @@ export const APIRoute = createAPIFileRoute("/api/auth/callback")({
 
     setTokens(exchanged.tokens.access, exchanged.tokens.refresh);
 
-    return json({ message: 'Hello "/api/auth/callback"!' });
+    return Response.redirect(`${url.origin}/drive`);
   },
 });
