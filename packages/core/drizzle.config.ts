@@ -11,5 +11,5 @@ export default defineConfig({
   dbCredentials: {
     url: `mysql://${username}:${password}@${host}/${database}`,
   },
-  schema: "./src/**/*.sql.ts",
+  schema: "./**/*.sql.ts",
 });
