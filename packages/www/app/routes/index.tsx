@@ -19,18 +19,20 @@ function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4">
-      <h1 className="text-4xl font-bold">Welcome!</h1>
-      {subject ? (
-        <div>
-          <p>You are logged in as {subject.properties.email}</p>
-          <Button onClick={() => logout()}>Logout</Button>
-        </div>
-      ) : (
-        <div>
-          <p>You are not logged in</p>
-          <Button onClick={() => login()}>Login</Button>
-        </div>
-      )}
+      <h1 className="text-6xl font-bold">Welcome to Boogle!</h1>
+      <div className="flex flex-col gap-2">
+        {subject ? (
+          <>
+            <p>You are logged in as {subject.properties.email}</p>
+            <Button onClick={() => logout()}>Logout</Button>
+          </>
+        ) : (
+          <>
+            <p>You are not logged in</p>
+            <Button onClick={() => login()}>Login</Button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
