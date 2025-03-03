@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { auth, loginFn, logoutFn } from "./-functions";
 import { useServerFn } from "@tanstack/react-start";
+import { ArrowRightIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -24,7 +25,12 @@ function Home() {
         {subject ? (
           <>
             <p>You are logged in as {subject.properties.email}</p>
-            <Button onClick={() => logout()}>Logout</Button>
+            <Button asChild>
+              <Link to="/drive">continue to drive</Link>
+            </Button>
+            <Button variant="outline" onClick={() => logout()}>
+              Logout
+            </Button>
           </>
         ) : (
           <>

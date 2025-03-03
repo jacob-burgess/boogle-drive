@@ -1,5 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { auth } from "../-functions";
+import { AppFooter } from "@/components/app-footer";
+import { AppHeader } from "@/components/app-header";
 
 export const Route = createFileRoute("/drive")({
   beforeLoad: async ({ context }) => {
@@ -13,9 +15,14 @@ export const Route = createFileRoute("/drive")({
 
 function DriveLayout() {
   return (
-    <div>
-      <h1>Hello "/drive" route!</h1>
-      <Outlet />
+    <div className="relative flex min-h-screen flex-col">
+      <AppHeader />
+      <hr />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <hr />
+      <AppFooter />
     </div>
   );
 }
