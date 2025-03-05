@@ -1,6 +1,8 @@
 import { issuer } from "@openauthjs/openauth/issuer";
 import { GithubProvider } from "@openauthjs/openauth/provider/github";
 import { GoogleProvider } from "@openauthjs/openauth/provider/google";
+import { PasswordUI } from "@openauthjs/openauth/ui/password";
+import { PasswordProvider } from "@openauthjs/openauth/provider/password";
 import { handle } from "hono/aws-lambda";
 import { Resource } from "sst";
 import { subjects } from "./subjects";
@@ -17,6 +19,13 @@ const app = issuer({
       clientSecret: Resource.GOOGLE_CLIENT_SECRET.value,
       scopes: ["email", "profile"],
     }),
+    password: PasswordProvider(
+      PasswordUI({
+        sendCode: async (email, code) => {
+          console.log(email, code);
+        },
+      })
+    ),
   },
   // storage,
   subjects,
