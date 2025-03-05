@@ -21,6 +21,8 @@ const app = issuer({
   // storage,
   subjects,
   success: async (ctx, value) => {
+    console.log("ctx", ctx);
+    console.log("value", value);
     let userId: number;
     if (value.provider === "github") {
       // lookup user or create user

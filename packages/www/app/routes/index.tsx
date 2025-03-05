@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { auth, loginFn, logoutFn } from "./-functions";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRightIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
