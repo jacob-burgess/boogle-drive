@@ -46,9 +46,11 @@ export const loginFn = createServerFn({ method: "GET" }).handler(async () => {
   }
 
   const host = getHeader("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
+  const redirectUri = host?.includes("localhost")
+    ? "http://localhost:3000"
+    : "https://boogle.dev";
   const { url } = await client.authorize(
-    `${protocol}://${host}/api/auth/callback`,
+    `${redirectUri}/api/auth/callback`,
     "code"
   );
 
