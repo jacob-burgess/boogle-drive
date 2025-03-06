@@ -23,7 +23,11 @@ export namespace User {
   export const byEmail = fn(Info.shape.email, (email) =>
     useTransaction(async (tx) =>
       tx.select().from(userTable).where(eq(userTable.email, email))
-    )
+    ).then(([user]) => {
+      if (user) {
+        return user;
+      } else return null;
+    })
   );
 
   export const Create = z.object({

@@ -13,6 +13,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@boogle/core": "workspace:*",
     "@aws-sdk/client-sesv2": "^3.758.0",
     "@openauthjs/openauth": "^0.4.0",
     "hono": "^4.7.2",
