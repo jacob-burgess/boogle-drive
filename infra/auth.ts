@@ -1,4 +1,5 @@
 import { domain } from "./dns";
+import { email } from "./email";
 import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
@@ -16,6 +17,7 @@ export const auth = new sst.aws.Auth("AuthServer", {
       GOOGLE_CLIENT_SECRET,
       GITHUB_CLIENT_ID,
       GITHUB_CLIENT_SECRET,
+      email,
     ],
   },
   domain: {

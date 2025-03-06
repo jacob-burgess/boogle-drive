@@ -17,6 +17,11 @@ declare module "sst" {
       "type": "sst.sst.Linkable"
       "username": string
     }
+    "Email": {
+      "configSet": string
+      "sender": string
+      "type": "sst.aws.Email"
+    }
     "GITHUB_CLIENT_ID": {
       "type": "sst.sst.Secret"
       "value": string

@@ -1,11 +1,14 @@
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 import { issuer } from "@openauthjs/openauth/issuer";
 import { GithubProvider } from "@openauthjs/openauth/provider/github";
 import { GoogleProvider } from "@openauthjs/openauth/provider/google";
-import { PasswordUI } from "@openauthjs/openauth/ui/password";
 import { PasswordProvider } from "@openauthjs/openauth/provider/password";
+import { PasswordUI } from "@openauthjs/openauth/ui/password";
 import { handle } from "hono/aws-lambda";
 import { Resource } from "sst";
 import { subjects } from "./subjects";
+
+const client = new SESv2Client();
 
 const app = issuer({
   providers: {
@@ -23,6 +26,19 @@ const app = issuer({
       PasswordUI({
         sendCode: async (email, code) => {
           console.log(email, code);
+          const command = new SendEmailCommand({
+            FromEmailAddress: "mail@" + Resource.Email.sender,
+            Destination: {
+              ToAddresses: [email],
+            },
+            Content: {
+              Simple: {
+                Subject: { Data: "Boogle Auth Code" },
+                Body: { Text: { Data: `Your code is ${code}.` } },
+              },
+            },
+          });
+          await client.send(command);
         },
       })
     ),
