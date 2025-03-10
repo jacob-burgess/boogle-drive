@@ -1,5 +1,5 @@
 {
-  "name": "control",
+  "name": "@boogle/control",
   "module": "index.ts",
   "type": "module",
   "private": true,
@@ -8,5 +8,10 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "opencontrol": "^0.0.6",
+    "sst": "^3.9.33"
   }
 }
