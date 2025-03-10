@@ -18,10 +18,20 @@
       "name": "@boogle/auth",
       "dependencies": {
         "@aws-sdk/client-sesv2": "^3.758.0",
+        "@boogle/core": "workspace:*",
         "@openauthjs/openauth": "^0.4.0",
         "hono": "^4.7.2",
         "zod": "^3.24.2",
       },
+      "devDependencies": {
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "packages/control": {
+      "name": "control",
       "devDependencies": {
         "@types/bun": "latest",
       },
@@ -769,6 +779,8 @@
     "confbox": ["confbox@0.1.8", "", {}, "sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w=="],
 
     "consola": ["consola@3.4.0", "", {}, "sha512-EiPU8G6dQG0GFHNR8ljnZFki/8a+cQwEQ+7wpxdChl02Q8HXlwEZWD5lqAF8vC2sEC3Tehr8hy7vErz88LHyUA=="],
+
+    "control": ["control@workspace:packages/control"],
 
     "convert-source-map": ["convert-source-map@2.0.0", "", {}, "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg=="],
 

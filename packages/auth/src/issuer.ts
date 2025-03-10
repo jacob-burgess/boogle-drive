@@ -31,8 +31,19 @@ const app = issuer({
       })
     ),
   },
-  // storage,
   subjects,
+  allow: async (input, req) => {
+    console.log("REDIRECT_URI", input.redirectURI);
+    // Allow localhost for development
+    if (input.redirectURI.includes("localhost")) {
+      return true;
+    }
+
+    // Allow specific production domains
+    const allowedDomains = ["https://www.boogle.com", "https://boogle.com"];
+
+    return allowedDomains.some((domain) => input.redirectURI === domain);
+  },
   success: async (ctx, value) => {
     if (value.provider === "password") {
       // lookup user or create user
