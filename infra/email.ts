@@ -1,7 +1,9 @@
 import { domain } from "./dns";
 
+const isProduction = $app.stage === "production";
+
 export const email = new sst.aws.Email("Email", {
-  sender: domain,
+  sender: !isProduction ? domain : `mail.${domain}`,
   dns: sst.cloudflare.dns(),
 });
 

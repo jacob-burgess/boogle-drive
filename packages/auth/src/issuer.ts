@@ -14,7 +14,6 @@ const app = issuer({
     password: PasswordProvider(
       PasswordUI({
         sendCode: async (email, code) => {
-          console.log(email, code);
           const command = new SendEmailCommand({
             FromEmailAddress: "mail@" + Resource.Email.sender,
             Destination: {
