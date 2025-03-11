@@ -1,9 +1,9 @@
 import { database } from "./database";
 // import { allSecrets } from "./secrets";
 
-new sst.aws.OpenControl("OpenControl", {
+const OC = new sst.aws.OpenControl("OpenControl", {
   server: {
-    handler: "packages/ ction/opencontrol/server.handler",
+    handler: "packages/control/src/server.handler",
     link: [
       database,
       // ...allSecrets
@@ -18,3 +18,7 @@ new sst.aws.OpenControl("OpenControl", {
     },
   },
 });
+
+export const outputs = {
+  opencontrol: OC.url,
+};

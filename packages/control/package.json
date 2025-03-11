@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",
-    "opencontrol": "^0.0.6",
-    "sst": "^3.9.33"
+    "opencontrol": "^0.0.6"
   }
 }
