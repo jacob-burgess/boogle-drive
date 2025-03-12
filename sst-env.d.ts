@@ -22,6 +22,10 @@ declare module "sst" {
       "sender": string
       "type": "sst.aws.Email"
     }
+    "Storage": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
     "WWW": {
       "type": "sst.aws.TanstackStart"
       "url": string

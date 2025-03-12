@@ -1,6 +1,7 @@
 import { auth } from "./auth";
 import { database } from "./database";
 import { domain } from "./dns";
+import { bucket } from "./storage";
 
 const www = new sst.aws.TanstackStart("WWW", {
   domain: {
@@ -9,7 +10,7 @@ const www = new sst.aws.TanstackStart("WWW", {
     dns: sst.cloudflare.dns(),
   },
   path: "./packages/www",
-  link: [auth, database],
+  link: [auth, bucket, database],
 });
 
 export const outputs = {
