@@ -4,6 +4,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { createServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { Resource } from "sst";
+import { Button } from "@/components/ui/button";
+import { Item } from "@boogle/core/item/item";
 
 const getUploadUrl = createServerFn({ method: "GET" }).handler(async () => {
   const subject = await auth();
@@ -18,6 +20,13 @@ const getUploadUrl = createServerFn({ method: "GET" }).handler(async () => {
   const url = await getSignedUrl(new S3Client({}), command);
   return url;
 });
+
+const saveFile = createServerFn({ method: "POST" })
+  .validator(Item.Create)
+  .handler(async (input) => {
+    const response = await Item.create(input.data);
+    return response;
+  });
 
 export function UploadForm() {
   const [url, setUrl] = useState<string | null>(null);
@@ -35,6 +44,11 @@ export function UploadForm() {
       onSubmit={async (e) => {
         e.preventDefault();
 
+        const subject = await auth();
+        if (!subject) {
+          throw new Error("Unauthorized");
+        }
+
         const file = (e.target as HTMLFormElement).file.files?.[0] ?? null;
 
         const image = await fetch(url, {
@@ -46,11 +60,21 @@ export function UploadForm() {
           },
         });
 
-        window.location.href = image.url.split("?")[0];
+        await saveFile({
+          data: {
+            name: file.name,
+            url: image.url.split("?")[0],
+            type: "file" as const,
+            ownerId: subject.properties.userId,
+            size: file.size ?? 0,
+            mimeType: file.type ?? null,
+          },
+        });
       }}
+      className="flex gap-2"
     >
       <input name="file" type="file" accept="image/png, image/jpeg" />
-      <button type="submit">Upload</button>
+      <Button type="submit">Upload</Button>
     </form>
   );
 }

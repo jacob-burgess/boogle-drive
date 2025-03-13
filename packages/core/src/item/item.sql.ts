@@ -6,6 +6,7 @@ const itemTypes = ["file", "folder"] as const;
 export const itemTable = mysqlTable("item", {
   ...id,
   name: varchar("name", { length: 255 }).notNull(),
+  url: varchar("url", { length: 255 }).notNull(),
   type: mysqlEnum("type", itemTypes).notNull(),
   parentId: bigint("parent_id", { mode: "number" }),
   ownerId: bigint("owner_id", { mode: "number" }).notNull(),
