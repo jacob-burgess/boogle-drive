@@ -1,4 +1,4 @@
-import { UploadForm } from "@/components/upload-form";
+import { UploadDialog } from "@/components/upload-dialog";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/drive/")({
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/drive/")({
 function RouteComponent() {
   return (
     <div className="flex flex-col gap-4 items-center justify-center flex-1">
-      <UploadForm />
+      <UploadDialog />
     </div>
   );
 }
