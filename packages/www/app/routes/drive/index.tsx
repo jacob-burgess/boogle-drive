@@ -3,6 +3,8 @@ import { Item } from "@boogle/core/item/item";
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "../-functions";
+import { DataTable } from "@/components/files-table/data-table";
+import { columns } from "@/components/files-table/columns";
 
 const getFiles = createServerFn({ method: "GET" }).handler(async () => {
   const subject = await auth();
@@ -31,11 +33,7 @@ function RouteComponent() {
           <h1 className="text-2xl font-bold">Drive</h1>
           <UploadDialog />
         </div>
-        <div className="flex flex-col gap-2">
-          {files.map((file) => (
-            <div key={file.id}>{file.name}</div>
-          ))}
-        </div>
+        <DataTable columns={columns} data={files} />
       </div>
     </div>
   );
