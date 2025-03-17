@@ -1,4 +1,4 @@
-import { auth } from "@/routes/-functions";
+import { auth } from "@/server/functions/auth";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { createServerFn } from "@tanstack/react-start";
@@ -6,20 +6,18 @@ import { useEffect, useState } from "react";
 import { Resource } from "sst";
 import { Button } from "@/components/ui/button";
 import { Item } from "@boogle/core/item/item";
+import { authMiddleware } from "@/server/middleware";
 
-const getUploadUrl = createServerFn({ method: "GET" }).handler(async () => {
-  const subject = await auth();
-  if (!subject) {
-    throw new Error("Unauthorized");
-  }
-
-  const command = new PutObjectCommand({
-    Key: `${subject.properties.userId}/${crypto.randomUUID()}`,
-    Bucket: Resource.Storage.name,
+const getUploadUrl = createServerFn({ method: "GET" })
+  .middleware([authMiddleware])
+  .handler(async ({ context }) => {
+    const command = new PutObjectCommand({
+      Key: `${context.subject.userId}/${crypto.randomUUID()}`,
+      Bucket: Resource.Storage.name,
+    });
+    const url = await getSignedUrl(new S3Client({}), command);
+    return url;
   });
-  const url = await getSignedUrl(new S3Client({}), command);
-  return url;
-});
 
 const saveFile = createServerFn({ method: "POST" })
   .validator(Item.Create)

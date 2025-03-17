@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { auth } from "../-functions";
+import { auth } from "@/server/functions/auth";
 import { AppFooter } from "@/components/app-footer";
 import { AppHeader } from "@/components/app-header";
 

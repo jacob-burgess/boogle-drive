@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { auth, loginFn, logoutFn } from "./-functions";
+import { auth, loginFn, logoutFn } from "@/server/functions/auth";
 import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/")({
