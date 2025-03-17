@@ -10,11 +10,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { UploadForm } from "@/components/upload-form";
+import { useState } from "react";
 
 export function UploadDialog() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
-      <DialogTrigger>Upload</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>Upload</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upload a file</DialogTitle>
@@ -22,7 +27,7 @@ export function UploadDialog() {
             Select a file to upload to your drive.
           </DialogDescription>
         </DialogHeader>
-        <UploadForm />
+        <UploadForm onSuccess={() => setOpen(false)} />
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">

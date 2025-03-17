@@ -5,8 +5,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { Resource } from "sst";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Item } from "@boogle/core/item/item";
 import { authMiddleware } from "@/server/middleware";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const getUploadUrl = createServerFn({ method: "GET" })
   .middleware([authMiddleware])
@@ -26,53 +29,93 @@ const saveFile = createServerFn({ method: "POST" })
     return response;
   });
 
-export function UploadForm() {
+export function UploadForm({ onSuccess }: { onSuccess?: () => void }) {
   const [url, setUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     getUploadUrl().then(setUrl);
   }, []);
 
   if (!url) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center py-4">
+        <Loader2 className="h-6 w-6 animate-spin" />
+      </div>
+    );
   }
 
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
+        setIsUploading(true);
 
-        const subject = await auth();
-        if (!subject) {
-          throw new Error("Unauthorized");
+        try {
+          const subject = await auth();
+          if (!subject) {
+            throw new Error("Unauthorized");
+          }
+
+          const file = (e.target as HTMLFormElement).file.files?.[0] ?? null;
+          if (!file) {
+            throw new Error("No file selected");
+          }
+
+          const image = await fetch(url, {
+            body: file,
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+              "Content-Disposition": `attachment; filename="${file.name}"`,
+            },
+          });
+
+          if (!image.ok) {
+            throw new Error("Failed to upload file");
+          }
+
+          await saveFile({
+            data: {
+              name: file.name,
+              url: image.url.split("?")[0],
+              type: "file" as const,
+              ownerId: subject.properties.userId,
+              size: file.size ?? 0,
+              mimeType: file.type ?? null,
+            },
+          });
+
+          toast.success("File uploaded successfully");
+          onSuccess?.();
+        } catch (error) {
+          toast.error(
+            error instanceof Error ? error.message : "Failed to upload file"
+          );
+        } finally {
+          setIsUploading(false);
         }
-
-        const file = (e.target as HTMLFormElement).file.files?.[0] ?? null;
-
-        const image = await fetch(url, {
-          body: file,
-          method: "PUT",
-          headers: {
-            "Content-Type": file.type,
-            "Content-Disposition": `attachment; filename="${file.name}"`,
-          },
-        });
-
-        await saveFile({
-          data: {
-            name: file.name,
-            url: image.url.split("?")[0],
-            type: "file" as const,
-            ownerId: subject.properties.userId,
-            size: file.size ?? 0,
-            mimeType: file.type ?? null,
-          },
-        });
       }}
-      className="flex gap-2"
+      className="space-y-4"
     >
-      <input name="file" type="file" accept="image/png, image/jpeg" />
-      <Button type="submit">Upload</Button>
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Input
+          name="file"
+          type="file"
+          accept="image/png, image/jpeg"
+          disabled={isUploading}
+        />
+      </div>
+      <Button type="submit" disabled={isUploading}>
+        {isUploading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Uploading...
+          </>
+        ) : (
+          "Upload"
+        )}
+      </Button>
     </form>
   );
 }
