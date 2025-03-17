@@ -2,18 +2,16 @@ import { UploadDialog } from "@/components/upload-dialog";
 import { Item } from "@boogle/core/item/item";
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { auth } from "../-functions";
 import { DataTable } from "@/components/files-table/data-table";
 import { columns } from "@/components/files-table/columns";
+import { loggingMiddleware, authMiddleware } from "@/server/middleware";
 
-const getFiles = createServerFn({ method: "GET" }).handler(async () => {
-  const subject = await auth();
-  if (!subject) {
-    throw new Error("Unauthorized");
-  }
-  const files = await Item.byOwner(subject.properties.userId);
-  return files;
-});
+const getFiles = createServerFn({ method: "GET" })
+  .middleware([loggingMiddleware, authMiddleware])
+  .handler(async ({ context }) => {
+    const files = await Item.byOwner(context.subject.userId);
+    return files;
+  });
 
 export const Route = createFileRoute("/drive/")({
   component: RouteComponent,
@@ -24,8 +22,7 @@ export const Route = createFileRoute("/drive/")({
 });
 
 function RouteComponent() {
-  const data = Route.useLoaderData();
-  const files = data.files;
+  const { files } = Route.useLoaderData();
   return (
     <div className="flex flex-col gap-4 flex-1">
       <div className="flex flex-col gap-2 p-8">
